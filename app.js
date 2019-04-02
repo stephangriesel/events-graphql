@@ -1,14 +1,19 @@
 const express = require('express');
 const bodypParser = require('body-parser');
-const graphqlHttp = require('express-graphql');
-const { buildSchema } = require('graphql')
+const graphqlHttp = require('express-graphql'); // export valid middleware function
+const { buildSchema } = require('graphql');
 
 const app = express();
 
 app.use(bodypParser.json());
 
+// graphql one endpoint where all requests are sent
+// specify middleware function created above (graphqlHttp)
+// create schema 
+// query fetch data
+// mutations change data (crud)
 app.use('/graphql', graphqlHttp({
-    schema: buildSchema(`
+    schema: buildSchema(` 
         type RootQuery {
             events: [String!]!
         }
@@ -16,7 +21,7 @@ app.use('/graphql', graphqlHttp({
         type RootMutation {
             createEvent(name: String): String
         }
-        schema {
+        schema { 
             query: RootQuery
             mutation: RootMutation
         }
