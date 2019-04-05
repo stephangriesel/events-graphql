@@ -1,5 +1,5 @@
 const express = require('express');
-const bodypParser = require('body-parser');
+const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql'); // export valid middleware function
 const { buildSchema } = require('graphql');
 
@@ -7,15 +7,17 @@ const app = express();
 
 const events = [];
 
-app.use(bodypParser.json());
+app.use(bodyParser.json());
 
 // graphql one endpoint where all requests are sent
 // specify middleware function created above (graphqlHttp)
 // create schema 
 // query fetch data
 // mutations change data (crud)
-app.use('/graphql', graphqlHttp({
-    schema: buildSchema(` 
+app.use(
+    '/graphql',
+    graphqlHttp({
+        schema: buildSchema(` 
 
         type Event {
             _id: ID!
@@ -44,22 +46,23 @@ app.use('/graphql', graphqlHttp({
             mutation: RootMutation
         }
     `),
-    rootValue: {
-        events: () => {
-            return events;
+        rootValue: {
+            events: () => {
+                return events;
+            },
+            createEvent: (args) => {
+                const event = {
+                    _id: Math.random().toString(),
+                    title: args.eventInput.title,
+                    description: args.eventInput.description,
+                    price: +args.eventInput.description, // The + operator returns the numeric representation of the object. The + and - operators also have unary versions, where they operate only on one variable. When used in this fashion, + returns the number representation of the object, while - returns its negative counterpart.
+                    date: args.eventInput.date
+                };
+                events.push(event);
+                return event;
+            }
         },
-        createEvent: (args) => {
-            const event = {
-            _id: Math.random().toString(),
-            title: args.title,
-            description: args.description,
-            price: +args.description, // The + operator returns the numeric representation of the object. The + and - operators also have unary versions, where they operate only on one variable. When used in this fashion, + returns the number representation of the object, while - returns its negative counterpart.
-            date: new Date().toISOString()
-        };
-        events.push(event);
-        }
-    },
-    graphiql: true
-}));
+        graphiql: true
+    }));
 
 app.listen(3000);
