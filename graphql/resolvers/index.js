@@ -10,6 +10,7 @@ const events = eventIds => {
             return { 
                 ...event._doc,
                 _id:event.id, 
+                date: new Date(event._doc.date).toISOString(),
                 creator: user.bind(this,event.creator)
             };
         });
@@ -42,7 +43,8 @@ module.exports = {
                     return { 
                         ...event._doc, 
                         _id: event.id, // keep note of shorter way defined here, longer query event._doc._id.toString()
-                    creator: user.bind(this, event._doc.creator)
+                        date: new Date(event._doc.date).toISOString(),
+                        creator: user.bind(this, event._doc.creator)
                     }; 
                 })
             })
@@ -62,7 +64,12 @@ module.exports = {
         return event
             .save()
             .then(result => {
-                createdEvent = { ...result._doc, _id: result._doc._id.toString(), creator: user.bind(this,result._doc.creator) }
+                createdEvent = { 
+                    ...result._doc, 
+                    _id: result._doc._id.toString(),
+                    date: new Date(event._doc.date).toISOString(),
+                    creator: user.bind(this,result._doc.creator) 
+                }
                 return User.findById('5ca8abea43cf926f66e0754f')                        
             })
             .then(user => {
