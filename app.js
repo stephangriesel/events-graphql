@@ -13,6 +13,16 @@ const app = express();
 
 app.use(bodyParser.json());
 
+const user = userId => {
+    return User.findById(userId)
+    .then(user => {
+        return { ...user._doc, _id: user.id };
+    })
+    .catch(err => {
+        throw err;
+    });
+};
+
 // graphql one endpoint where all requests are sent
 // specify middleware function created above (graphqlHttp)
 // create schema 
@@ -68,16 +78,12 @@ app.use(
             events: () => {
                 return Event
                 .find()
-                .populate('creator')
                     .then(events => {
                         return events.map(event => {
                             return { 
                                 ...event._doc, 
                                 _id: event.id, // keep note of shorter way defined here, longer query event._doc._id.toString()
-                            creator: {
-                                ...event._doc.creator._doc,
-                                _id: event._doc.creator.id
-                            }
+                            creator: user.bind(this, event._doc.creator)
                             }; 
                         })
                     })
