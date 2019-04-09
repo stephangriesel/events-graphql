@@ -22,6 +22,19 @@ const events = async eventIds => { // change to async: https://developer.mozilla
   }
 };
 
+const singleEvent = async eventId => {
+  try {
+    const event = await Event.findById(eventId);
+    return {
+      ...event._doc,
+      _id: event.id,
+      creator: user.bind(this, event.creator)
+    };
+  } catch (err) {
+    throw err;
+  }
+}
+
 const user = async userId => { // Manual population
   try {
     const user = await User.findById(userId)
@@ -58,6 +71,8 @@ module.exports = {
         return {
           ...booking._doc,
           _id: booking.id,
+          user: user.bind(this,booking._doc.user),
+          event: singleEvent.bind(this,booking._doc.event),
           createdAt: new date(booking._doc.createdAt).toISOString(),
           updatedAt: new date(booking._doc.createdAt).toISOString()
         };
@@ -128,6 +143,8 @@ module.exports = {
     return {
       ...result._doc,
       _id: result.id,
+      user: user.bind(this,booking._doc.user),
+      event: singleEvent.bind(this,booking._doc.event),
       createdAt: new Date(booking._doc.createdAt).toISOString(),
       updatedAt: new Date(booking._doc.createdAt).toISOString()
     };
