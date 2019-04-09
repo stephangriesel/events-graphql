@@ -33,7 +33,7 @@ const singleEvent = async eventId => {
   } catch (err) {
     throw err;
   }
-}
+};
 
 const user = async userId => { // Manual population
   try {
@@ -66,15 +66,15 @@ module.exports = {
   },
   bookings: async () => {
     try {
-      const bookings = Booking.find();
+      const bookings = await Booking.find();
       return bookings.map(booking => {
         return {
           ...booking._doc,
           _id: booking.id,
-          user: user.bind(this,booking._doc.user),
-          event: singleEvent.bind(this,booking._doc.event),
-          createdAt: new date(booking._doc.createdAt).toISOString(),
-          updatedAt: new date(booking._doc.createdAt).toISOString()
+          user: user.bind(this, booking._doc.user),
+          event: singleEvent.bind(this, booking._doc.event),
+          createdAt: new Date(booking._doc.createdAt).toISOString(),
+          updatedAt: new Date(booking._doc.updatedAt).toISOString()
         };
       });
     } catch (err) {
@@ -143,10 +143,10 @@ module.exports = {
     return {
       ...result._doc,
       _id: result.id,
-      user: user.bind(this,booking._doc.user),
-      event: singleEvent.bind(this,booking._doc.event),
-      createdAt: new Date(booking._doc.createdAt).toISOString(),
-      updatedAt: new Date(booking._doc.createdAt).toISOString()
+      user: user.bind(this, booking._doc.user),
+      event: singleEvent.bind(this, booking._doc.event),
+      createdAt: new Date(result._doc.createdAt).toISOString(),
+      updatedAt: new Date(result._doc.updatedAt).toISOString()
     };
-  }
+  },
 };
