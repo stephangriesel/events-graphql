@@ -119,7 +119,7 @@ module.exports = {
     };
   },
   bookEvent: async args => {
-    const fetchEvent = await Event.findOne({ _id: args.eventId });
+    const fetchedEvent = await Event.findOne({ _id: args.eventId });
     const booking = new Booking({
       user: '5cac21dbb8156f69450b2116',
       event: fetchedEvent
@@ -128,8 +128,8 @@ module.exports = {
     return {
       ...result._doc,
       _id: result.id,
-      createdAt: new date(booking._doc.createdAt).toISOString(),
-      updatedAt: new date(booking._doc.createdAt).toISOString()
+      createdAt: new Date(booking._doc.createdAt).toISOString(),
+      updatedAt: new Date(booking._doc.createdAt).toISOString()
     };
   }
 };
