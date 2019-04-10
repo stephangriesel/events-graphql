@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 const graphQLSchema = require('./graphql/schema/index');
-const graphQLResolvers = require('./graphql/resolvers/index');
+const graphQLResolvers = require('./graphql/resolvers/index'); // rootresolver import
 
 app.use(bodyParser.json());
 
