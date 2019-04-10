@@ -7,7 +7,7 @@ const Booking = require('../../models/booking');
 const events = async eventIds => { // change to async: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
   try {
     const events = await Event.find({ _id: { $in: eventIds } })
-    events.map(event => {
+    return events.map(event => {
       return {
         ...event._doc,
         _id: event.id,
@@ -15,8 +15,6 @@ const events = async eventIds => { // change to async: https://developer.mozilla
         creator: user.bind(this, event.creator)
       };
     });
-    return events;
-    // return events.map(...)
   } catch (err) {
     throw err;
   }
