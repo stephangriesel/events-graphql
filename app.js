@@ -6,8 +6,11 @@ const app = express();
 
 const graphQLSchema = require('./graphql/schema/index');
 const graphQLResolvers = require('./graphql/resolvers/index'); // rootresolver import
+const isAuth = require('./middleware/is-auth')
 
 app.use(bodyParser.json());
+
+app.use(isAuth);
 
 
 
