@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../../models/user');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
   createUser: async args => {
@@ -32,6 +33,9 @@ module.exports = {
     if (!isEqual) {
       throw new Error('Try again, confirm email & password');
     }
-    
+    const token = jwt.sign({ userId: user.id, email: user.email }, 'supercalifragilisticexpialidocious', {
+      expiresIn: '1h' // change to 20min
+    });
+    return{userId: user.id, token: token, tokenExpiration: 1 }
   }
 };
