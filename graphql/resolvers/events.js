@@ -13,7 +13,10 @@ module.exports = {
         throw err;
       }
     },
-    createEvent: async args => {
+    createEvent: async (args, req) => { // << protect resolvers
+      if (!req.isAuth) { // <<
+        throw new Error("Try again"); // <<
+      } // <<
       const event = new Event({
         title: args.eventInput.title,
         description: args.eventInput.description,
