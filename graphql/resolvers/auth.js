@@ -25,7 +25,7 @@ module.exports = {
     };
   },
   login: async ({ email, password}) => {
-    const user = User.findOne({ email: email });
+    const user = await User.findOne({ email: email });
     if (!user) {
       throw new Error('Try again, confirm email & password');
     }
