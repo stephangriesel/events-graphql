@@ -22,5 +22,16 @@ module.exports = {
     } catch (err) {
       throw err;
     };
+  },
+  login: async ({ email, password}) => {
+    const user = User.findOne({ email: email });
+    if (!user) {
+      throw new Error('Try again, confirm email & password');
+    }
+    const isEqual = await bcrypt.compare(password, user.password);
+    if (!isEqual) {
+      throw new Error('Try again, confirm email & password');
+    }
+    
   }
 };
