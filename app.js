@@ -10,6 +10,7 @@ const isAuth = require('./middleware/is-auth')
 
 app.use(bodyParser.json());
 
+// CORS
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
