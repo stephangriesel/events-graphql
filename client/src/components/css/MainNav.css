@@ -1,5 +1,5 @@
 header {
-    background-color:#c0b694;
+    background-color:#fffb00;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
@@ -26,3 +26,12 @@ header {
 
 
  }
+
+.mainnav__item a:hover,
+.mainnav__item a:active,
+.mainnav__item a.active {
+    background:rgb(7, 6, 6);
+    color:#fff133;
+    text-transform: uppercase;
+    text-decoration: none;
+}
