@@ -12,6 +12,15 @@ a:hover {
     text-decoration: none;
 }
 
+a:hover,
+a:active,
+a.active {
+    background:rgb(7, 6, 6);
+    color:#fff133;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
 .main-content {
     margin: 20px 20px;
 }
