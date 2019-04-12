@@ -5,14 +5,15 @@ header {
     flex-direction: row;
     align-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .mainnav__logo {
-    margin:10px 20px;
+    /* margin:10px 20px; */
 }
 
 .mainnav__item {
-    margin: 10px 20px;
+    /* margin: 10px 20px; */
 }
 
 .mainnav__item li {

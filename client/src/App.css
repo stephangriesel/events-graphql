@@ -1,3 +1,7 @@
+#root {
+    width:100%;
+}
+
 a {
     background:#FFFFFF;
     color:#000000;
@@ -23,4 +27,8 @@ a.active {
 
 .main-content {
     margin: 20px 20px;
+}
+
+.main-content-wrapper {
+    width:100%;
 }
