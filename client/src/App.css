@@ -1,0 +1,17 @@
+a {
+    background:#FFFFFF;
+    color:#000000;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+a:hover {
+    background:rgb(150, 138, 138);
+    color:#ffffff;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.main-content {
+    margin: 20px 20px;
+}
