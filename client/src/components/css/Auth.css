@@ -21,4 +21,17 @@
     font-size:20px;
     background: #000000;
     color:#FFFFFF;
+    box-shadow: 8px 5px 8px rgba(0,0,0,0.29);
+    cursor: pointer;
+}
+
+.form-wrapper button:hover {
+    border:none;
+    margin:10px;
+    padding:10px;
+    font-size:20px;
+    background: #0c0c0c;
+    color:#fff133;
+    box-shadow: 8px 5px 8px rgba(0,0,0,0.29);
+    cursor: pointer;
 }

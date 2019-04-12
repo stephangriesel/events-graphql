@@ -14,9 +14,9 @@ class AuthComponent extends Component {
                     <input type="password" id="submit" placeholder="***************" />
                 </div>
                 <div className="form-actions">
-                    <button type="submit">Take Me With</button>
+                    <button type="submit"><i class="far fa-hand-spock"></i> Take Me With</button>
 
-                    <button type="button">Switch To Signup</button>
+                    <button type="button">Sign Me Up <i class="far fa-check-circle"></i></button>
                 </div>
             </form>
         );
