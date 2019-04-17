@@ -41,6 +41,10 @@ class App extends Component {
                   !this.state.token && 
                   <Redirect from="/" to="/auth" exact />
                 }
+                {// this route will only show if not logged in (!not)
+                  !this.state.token && 
+                  <Redirect from="/bookings" to="/auth" exact />
+                }
                 {// redirect to events if we have a token
                   this.state.token &&
                   <Redirect from="/" to="/events" exact />
@@ -58,6 +62,12 @@ class App extends Component {
                   this.state.token && 
                   <Route path="/bookings" component={BookingsComponent} />
                 }
+                {/*
+                {// redirect to auth if not (!not) logged in // adding this for reference, using <Redirect from="/bookings" to="/auth" exact /> above for now
+                  !this.state.token && 
+                  <Redirect to="/auth" exact />
+                }
+              */}
               </Switch>
             </main>
           </AuthContext.Provider>
