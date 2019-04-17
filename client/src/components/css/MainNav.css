@@ -23,6 +23,27 @@ header {
 .mainnav__item ul {
     display: flex;
     margin:0;
+    align-items: center;
+ }
+
+ button {
+     background:none;
+     color:#FFFFFF;
+     background: #000000;
+     border:none;
+     text-transform: uppercase;
+     margin:0 10px;
+     padding:0;
+ }
+
+ button:hover {
+    border:none;
+    background: #ff5e00;
+    color:#fff133;
+    margin:0 10px;
+    padding:0;
+    cursor: pointer;
+
  }
 
 

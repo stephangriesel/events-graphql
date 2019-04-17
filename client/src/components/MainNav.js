@@ -4,7 +4,7 @@ import './css/MainNav.css'
 import AuthContext from '../context/auth-context';
 
 const mainNav = props => (
-    <AuthContext.Consumer> 
+    <AuthContext.Consumer>
         {(context) => { // function to receive context value
             return (
                 <header>
@@ -14,17 +14,22 @@ const mainNav = props => (
                     <nav className="mainnav__item">
                         <ul>
                             {!context.token && (
-                            <li>
-                                <NavLink to="/auth">Login</NavLink>
-                            </li>
+                                <li>
+                                    <NavLink to="/auth">Login</NavLink>
+                                </li>
                             )}
                             <li>
                                 <NavLink to="/events">Events</NavLink>
                             </li>
                             {context.token && (
-                            <li>
-                                <NavLink to="/bookings">Bookings</NavLink>
-                            </li>
+                                <React.Fragment>
+                                    <li>
+                                        <NavLink to="/bookings">Bookings</NavLink>
+                                    </li>
+                                    <li>
+                                        <button onClick={context.logout}>LogOut</button>
+                                    </li>
+                                </React.Fragment>
                             )}
                         </ul>
                     </nav>
