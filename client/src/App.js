@@ -26,7 +26,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="main-content-wrapper">
-        <AuthContext.Provider
+          <AuthContext.Provider
             value={{ // set current value of context and distrubuted down to children
               token: this.state.token,
               userId: this.state.userId,
@@ -34,15 +34,32 @@ class App extends Component {
               logout: this.logout
             }}
           >
-          <MainNav />
-          <main className="main-content">
-            <Switch>
-              <Redirect from="/" to="/auth" exact />
-              <Route path="/auth" component={AuthComponent} />
-              <Route path="/events" component={EventsComponent} />
-              <Route path="/bookings" component={BookingsComponent} />
-            </Switch>
-          </main>
+            <MainNav />
+            <main className="main-content">
+              <Switch>
+                {// this route will only show if not logged in (!not)
+                  !this.state.token && 
+                  <Redirect from="/" to="/auth" exact />
+                }
+                {// redirect to events if we have a token
+                  this.state.token &&
+                  <Redirect from="/" to="/events" exact />
+                }
+                {// this route will work if logged in
+                  this.state.token &&
+                  <Redirect from="/auth" to="/events" exact />
+                }
+                {// auth page is should only be accessible when token not set (!not)
+                  !this.state.token && 
+                  <Route path="/auth" component={AuthComponent} />
+                }
+                <Route path="/events" component={EventsComponent} />
+                {// should be reachable when token is set
+                  this.state.token && 
+                  <Route path="/bookings" component={BookingsComponent} />
+                }
+              </Switch>
+            </main>
           </AuthContext.Provider>
         </div>
       </BrowserRouter>
