@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import './css/Auth.css';
+import AuthContext from '../context/auth-context'
 
 class AuthComponent extends Component {
     state = {
         isLoggedIn: true
     };
+
+    static contextType = AuthContext;
 
     constructor(props) {
         super(props);
@@ -67,8 +70,15 @@ class AuthComponent extends Component {
             }
             return res.json();
         })
-            .then(resData => {
-                console.log(resData);
+            .then(resData => { // Token for logging in
+                if (resData.data.login.token) { // Alt: this.state.isLoggedIn
+                    this.context.login(
+                        resData.data.login.token,
+                        resData.data.login.userId,
+                        resData.data.login.tokenExpiration,
+                    )
+
+                }
             })
             .catch(err => {
                 console.log(err); // show error messages, not status codes, more like network issues
