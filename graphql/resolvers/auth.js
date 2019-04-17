@@ -27,11 +27,11 @@ module.exports = {
   login: async ({ email, password}) => {
     const user = await User.findOne({ email: email });
     if (!user) {
-      throw new Error('Try again, confirm email & password');
+      throw new Error('Incorrect username');
     }
     const isEqual = await bcrypt.compare(password, user.password);
     if (!isEqual) {
-      throw new Error('Try again, confirm email & password');
+      throw new Error('Incorrect password');
     }
     const token = jwt.sign({ userId: user.id, email: user.email }, 'supercalifragilisticexpialidocious', {
       expiresIn: '1h' // change to 20min
