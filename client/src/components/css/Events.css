@@ -43,12 +43,40 @@
     font-size:20px;
     text-align: center;
     border:none;
-    width:80%;
+    width:100%;
+}
+
+/* Removes the clear button from date inputs */
+input[type="datetime-local"]::-webkit-clear-button {
+    display: none;
+}
+
+/* Removes the spin button */
+input[type="datetime-local"]::-webkit-inner-spin-button { 
+    display:none;
+}
+
+/* Always display the drop down caret */
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    color: #2c3e50;
+    padding:0;
+}
+
+input::placeholder::before[type="datetime-local"] {
+    color: #95a5a6;
+}
+input[type="datetime-local"] {
+    color: #000000;
 }
 
 input[type="date"]{
+    appearance: none;
     color: rgba(37, 37, 37, 0.493);
     
+}
+
+input#date {
+    font-size:15px;
 }
 
 
