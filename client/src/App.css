@@ -37,7 +37,7 @@ a.active {
 
 /* Buttons */
 
-button {
+button, .btn {
     background:none;
     color:#FFFFFF;
     background: #000000;
@@ -47,7 +47,7 @@ button {
     padding:0;
 }
 
-button:hover {
+button:hover, .btn:hover {
    border:none;
    background: #ff5e00;
    color:#fff133;
