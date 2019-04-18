@@ -1,0 +1,30 @@
+.events-wrapper {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.events-wrapper button {
+    border:none;
+    margin:10px;
+    padding:10px;
+    font-size:20px;
+    background: #000000;
+    color:#FFFFFF;
+    box-shadow: 8px 5px 8px rgba(0,0,0,0.29);
+    cursor: pointer;
+    width:200px;
+}
+
+.events-wrapper button:hover {
+    border:none;
+    margin:10px;
+    padding:10px;
+    font-size:20px;
+    background: #000000;
+    color:#fff133;
+    box-shadow: 8px 5px 8px rgba(0,0,0,0.29);
+    cursor: pointer;
+    transition: ease-in-out 0.3s;
+}

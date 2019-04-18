@@ -34,3 +34,25 @@ a.active {
 .main-content-wrapper {
     width:100%;
 }
+
+/* Buttons */
+
+button {
+    background:none;
+    color:#FFFFFF;
+    background: #000000;
+    border:none;
+    text-transform: uppercase;
+    margin:0 10px;
+    padding:0;
+}
+
+button:hover {
+   border:none;
+   background: #ff5e00;
+   color:#fff133;
+   margin:0 10px;
+   padding:0;
+   cursor: pointer;
+
+}
