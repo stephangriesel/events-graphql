@@ -1,3 +1,4 @@
+
 .modal {
     display:flex;
     justify-content: center;
@@ -5,9 +6,13 @@
     align-content: center;
     flex-direction: column;
     margin:5px 30px;
-    background:rgba(255, 255, 255, 0.5);
+    padding:10px;
+    background:rgba(255, 255, 255, 0.9);
     box-shadow: 8px 5px 8px rgba(0,0,0,0.29);
-
+    position:fixed;
+    top:15vh;
+    left:13%;
+    width:63%;
 }
 
 .modal__header {

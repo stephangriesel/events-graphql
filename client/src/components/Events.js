@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './css/Events.css';
 import Modal from './Modal';
-import Backdrop from './Auth';
-import './css/Backdrop.css';
+import Backdrop from './Backdrop';
 
 
 class EventsComponent extends Component {
