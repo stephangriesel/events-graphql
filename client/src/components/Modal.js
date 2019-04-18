@@ -8,8 +8,16 @@ const modal = props => (
             {props.children} {/*  allow to pass from outside */}
         </section>
         <section className="modal__actions">
-            {props.canCancel && <button className="btn">Cancel</button>}
-            {props.canConfirm && <button className="btn">Confirm</button>}
+            {props.canCancel && (
+                <button className="btn" onClick={props.onCancel}>
+                    Cancel
+                </button>
+            )}
+            {props.canConfirm && (
+                <button className="btn" onClick={props.onConfirm}>
+                    Confirm
+                </button>
+            )}
         </section>
     </div>
 ); // modal receive props and return modal content
