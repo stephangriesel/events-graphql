@@ -21,7 +21,7 @@ class EventsComponent extends Component {
 
     // Lifecycle hook
     componentDidMount() {
-        this.fetchEvents();
+        this.fetchBookings();
     }
 
     startCreateEventHandler = () => {
@@ -122,7 +122,7 @@ class EventsComponent extends Component {
         this.setState({ creating: false });
     };
 
-    fetchEvents() {
+    fetchBookings() {
         const requestBody = {
             query: `
                     query {
@@ -140,8 +140,6 @@ class EventsComponent extends Component {
                     }
                 `
         };
-
-        // const token = this.context.token;
 
         // send request to backend
         fetch('http://localhost:8000/graphql', { // not using axios. fetch built into modern browsers
