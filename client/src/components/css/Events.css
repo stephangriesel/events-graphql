@@ -79,4 +79,23 @@ input#date {
     font-size:15px;
 }
 
+/* List of bookings */
+.events__list {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 8px 5px 8px rgba(0,0,0,0.29);
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+
+
+.events__list-item {
+    display: flex;
+    justify-content: center;
+    padding:20px 0;
+    border-bottom: 0.2px solid #b6b6b6;
+}
+
 

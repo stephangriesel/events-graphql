@@ -8,7 +8,7 @@ class EventsComponent extends Component {
     state = {
         creating: false
     };
-    
+
     static contextType = AuthContext; // token,userid,login,logout
 
     constructor(props) { // binding was also option
@@ -18,7 +18,12 @@ class EventsComponent extends Component {
         this.dateElementRef = React.createRef();
         this.descriptionElementRef = React.createRef();
     }
-        
+
+    // Lifecycle hook
+    componentDidMount() {
+        this.fetchEvents();
+    }
+
     startCreateEventHandler = () => {
         this.setState({ creating: true }) // condition to display or hide backdrop/modal
     };
@@ -34,12 +39,12 @@ class EventsComponent extends Component {
             title.trim().length === 0 ||
             price <= 0 ||
             date.trim().length === 0 ||
-            description.trim().length === 0 
+            description.trim().length === 0
         ) {
             return;
         }
 
-        const event = {title:title,price:price,date:date,description:description};
+        const event = { title: title, price: price, date: date, description: description };
         console.log(event);
 
         // Same logic as in Auth.js: START
@@ -62,9 +67,9 @@ class EventsComponent extends Component {
         //     date: String!
         //     creator: User!
         // }
-        
+
         const requestBody = {
-                query: `
+            query: `
                     mutation {
                         createEvent(eventInput: 
                         {
@@ -86,7 +91,7 @@ class EventsComponent extends Component {
                         }
                     }
                 `
-            };
+        };
 
         const token = this.context.token;
 
@@ -110,18 +115,60 @@ class EventsComponent extends Component {
             .catch(err => {
                 console.log(err); // show error messages, not status codes, more like network issues
             });
-            // Same logic as in Auth.js: END
-        
+        // Same logic as in Auth.js: END
+
     };
     modalCancelHandler = () => {
         this.setState({ creating: false });
     };
 
+    fetchEvents() {
+        const requestBody = {
+            query: `
+                    query {
+                        events {
+                            _id
+                            title
+                            description
+                            date
+                            price
+                            creator {
+                                _id
+                                email
+                            }
+                        }
+                    }
+                `
+        };
+
+        // const token = this.context.token;
+
+        // send request to backend
+        fetch('http://localhost:8000/graphql', { // not using axios. fetch built into modern browsers
+            method: 'POST',
+            body: JSON.stringify(requestBody), // sending body in json format
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => {
+            if (res.status !== 200 && res.status !== 201) {
+                throw new Error('Please login and try again. Failed!');
+            }
+            return res.json();
+        })
+            .then(resData => { // Token for logging in
+                console.log(resData);
+            })
+            .catch(err => {
+                console.log(err); // show error messages, not status codes, more like network issues
+            });
+    }
+
     render() {
         return (
             <React.Fragment>
                 {this.state.creating && <Backdrop />}
-                {this.state.creating &&
+                {this.state.creating && (
                     <Modal title="Add Booking"
                         canCancel
                         canConfirm
@@ -143,14 +190,43 @@ class EventsComponent extends Component {
                             </div>
                             <div className="form-wrapper__events">
                                 {/* <label htmlFor="description">Description</label> */}
-                                <textarea id="description" rows="10" ref={this.descriptionElementRef}/>
-                                </div>
+                                <textarea id="description" rows="10" ref={this.descriptionElementRef} />
+                            </div>
                         </form>
-                    </Modal>} {/* canCancel & canConfirm will be set as true */}
-                <div className="events-wrapper">
-                    <h1>Ready to book?</h1>
-                    <button onClick={this.startCreateEventHandler}>Add Booking</button>
-                </div>
+                    </Modal>
+                )} {/* canCancel & canConfirm will be set as true */}
+                {this.context.token && (
+                    <div className="events-wrapper">
+                        <h1>Ready to book?</h1>
+                        <button onClick={this.startCreateEventHandler}>Add Booking</button>
+                    </div>
+                )}
+                {/* 
+
+                Schema Reference:
+
+                type RootQuery {
+                events: [Event!]!
+                bookings: [Booking!]!
+                login(email: String!, password: String!): AuthData!
+                }
+
+                type Event {
+                _id: ID!
+                title: String!
+                description: String!
+                price: Float!
+                date: String!
+                creator: User!
+                }
+
+                */}
+                <ul className="events__list"> {/* render events */}
+                    <li className="events__list-item">Test</li>
+                    <li className="events__list-item">Test</li>
+                    <li className="events__list-item">Test</li>
+                    <li className="events__list-item">Test</li>
+                </ul>
             </React.Fragment>
         );
     }
