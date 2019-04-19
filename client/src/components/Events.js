@@ -6,7 +6,8 @@ import AuthContext from '../context/auth-context';
 
 class EventsComponent extends Component {
     state = {
-        creating: false
+        creating: false,
+        events: []
     };
 
     static contextType = AuthContext; // token,userid,login,logout
@@ -110,7 +111,7 @@ class EventsComponent extends Component {
             return res.json();
         })
             .then(resData => { // Token for logging in
-                console.log(resData);
+                this.fetchBookings();
             })
             .catch(err => {
                 console.log(err); // show error messages, not status codes, more like network issues
@@ -154,15 +155,20 @@ class EventsComponent extends Component {
             }
             return res.json();
         })
-            .then(resData => { // Token for logging in
-                console.log(resData);
+            .then(resData => { 
+                const events = resData.data.events;
+                this.setState({events: events});
             })
             .catch(err => {
-                console.log(err); // show error messages, not status codes, more like network issues
+                console.log(err); 
             });
     }
 
     render() {
+
+        const eventList = this.state.events.map(event => {
+           return <li key={event._id} className="events__list-item">{event.title}</li>
+        });
         return (
             <React.Fragment>
                 {this.state.creating && <Backdrop />}
@@ -220,10 +226,7 @@ class EventsComponent extends Component {
 
                 */}
                 <ul className="events__list"> {/* render events */}
-                    <li className="events__list-item">Test</li>
-                    <li className="events__list-item">Test</li>
-                    <li className="events__list-item">Test</li>
-                    <li className="events__list-item">Test</li>
+                    {eventList}
                 </ul>
             </React.Fragment>
         );
