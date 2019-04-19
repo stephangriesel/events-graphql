@@ -203,7 +203,7 @@ class EventsComponent extends Component {
                         <button onClick={this.startCreateEventHandler}>Add Booking</button>
                     </div>
                 )}
-                <EventList events={this.state.events} />
+                <EventList events={this.state.events} authUserId={this.context.userId}/> {/* pass props from component, events passed & userid passed */}
             </React.Fragment>
         );
     }
