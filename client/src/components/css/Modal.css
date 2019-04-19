@@ -7,7 +7,7 @@
     flex-direction: column;
     margin:5px 30px;
     padding:10px;
-    background:rgba(255,255,255,0.90);
+    background:rgba(255,255,255,255);
     box-shadow: 8px 5px 8px rgba(0,0,0,0.29);
     position:fixed;
     top:15vh;
@@ -32,3 +32,14 @@
     justify-content: space-evenly;
     margin-bottom:20px;
 }
+
+.modal__actions button:hover, .btn:hover {
+    border:none;
+    background: #000000;
+    color:#fff133;
+    margin:0 10px;
+    padding:0;
+    cursor: pointer;
+    outline:none;
+ 
+ }

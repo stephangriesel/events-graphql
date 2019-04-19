@@ -60,7 +60,7 @@ class EventsComponent extends Component {
                         <form> {/* compare to schema*/}
                             <div className="form-wrapper__events">
                                 {/* <label htmlFor="title">What kind of booking ye majesty?</label> */}
-                                <input type="text" id="title" placeholder="Booking title ye majesty?" ref={this.titleElementRef}></input>
+                                <input type="text" id="title" placeholder="Your booking title" ref={this.titleElementRef}></input>
                             </div>
                             <div className="form-wrapper__events">
                                 {/* <label htmlFor="price">Price</label> */}
