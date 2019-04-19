@@ -16,7 +16,7 @@ module.exports = {
     },
     createEvent: async (args, req) => { // << protect resolvers
       if (!req.isAuth) { // <<
-        throw new Error("Try again"); // <<
+        throw new Error("Not authenticated, login and try again"); // <<
       } // <<
       const event = new Event({
         title: args.eventInput.title,

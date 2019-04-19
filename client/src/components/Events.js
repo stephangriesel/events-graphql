@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import './css/Events.css';
 import Modal from './Modal';
 import Backdrop from './Backdrop';
-
+import AuthContext from '../context/auth-context';
 
 class EventsComponent extends Component {
     state = {
         creating: false
     };
+    
+    static contextType = AuthContext; // token,userid,login,logout
 
     constructor(props) { // binding was also option
         super(props);
@@ -16,7 +18,7 @@ class EventsComponent extends Component {
         this.dateElementRef = React.createRef();
         this.descriptionElementRef = React.createRef();
     }
-
+        
     startCreateEventHandler = () => {
         this.setState({ creating: true }) // condition to display or hide backdrop/modal
     };
@@ -38,8 +40,77 @@ class EventsComponent extends Component {
         }
 
         const event = {title:title,price:price,date:date,description:description};
-        console.log(event); 
+        console.log(event);
 
+        // Same logic as in Auth.js: START
+
+        // Reference to schema:
+
+        // input EventInput {
+        //     title: String!
+        //     description: String!
+        //     price: Float!
+        //     date: String!
+        // }
+
+
+        // type Event {
+        //     _id: ID!
+        //     title: String!
+        //     description: String!
+        //     price: Float!
+        //     date: String!
+        //     creator: User!
+        // }
+        
+        const requestBody = {
+                query: `
+                    mutation {
+                        createEvent(eventInput: 
+                        {
+                            title:"${title}", 
+                            description:"${description}",
+                            price:${price},
+                            date:"${date}",
+                        
+                        }) {
+                            _id
+                            title
+                            description
+                            date
+                            price
+                            creator {
+                                _id
+                                email
+                            }
+                        }
+                    }
+                `
+            };
+
+        const token = this.context.token;
+
+        // send request to backend
+        fetch('http://localhost:8000/graphql', { // not using axios. fetch built into modern browsers
+            method: 'POST',
+            body: JSON.stringify(requestBody), // sending body in json format
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        }).then(res => {
+            if (res.status !== 200 && res.status !== 201) {
+                throw new Error('Please login and try again. Failed!');
+            }
+            return res.json();
+        })
+            .then(resData => { // Token for logging in
+                console.log(resData);
+            })
+            .catch(err => {
+                console.log(err); // show error messages, not status codes, more like network issues
+            });
+            // Same logic as in Auth.js: END
         
     };
     modalCancelHandler = () => {

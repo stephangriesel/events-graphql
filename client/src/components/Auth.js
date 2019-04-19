@@ -82,7 +82,7 @@ class AuthComponent extends Component {
             })
             .catch(err => {
                 console.log(err); // show error messages, not status codes, more like network issues
-            })
+            });
     };
     render() {
         return (
