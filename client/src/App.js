@@ -39,7 +39,7 @@ class App extends Component {
               <Switch>
                 {// this route will only show if not logged in (!not)
                   !this.state.token && 
-                  <Redirect from="/" to="/auth" exact />
+                  <Redirect from="/" to="/events" exact />
                 }
                 {// this route will only show if not logged in (!not)
                   !this.state.token && 
