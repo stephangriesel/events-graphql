@@ -96,7 +96,7 @@ class AuthComponent extends Component {
                 <div className="form-actions">
                     <button type="submit">Submit</button>
                     <button type="button" onClick={this.switchModeHandler}>
-                        Take Me To {this.state.isLoggedIn ? 'Signup Page' : 'Your Leader'} <i className="far fa-hand-spock"></i>
+                        {this.state.isLoggedIn ? 'Signup' : 'Your Leader'} <i className="far fa-hand-spock"></i>
                     </button>
                 </div>
             </form>

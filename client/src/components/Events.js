@@ -3,6 +3,7 @@ import './css/Events.css';
 import Modal from './Modal';
 import Backdrop from './Backdrop';
 import AuthContext from '../context/auth-context';
+import EventList from './EventList';
 
 class EventsComponent extends Component {
     state = {
@@ -166,9 +167,6 @@ class EventsComponent extends Component {
 
     render() {
 
-        const eventList = this.state.events.map(event => {
-           return <li key={event._id} className="events__list-item">{event.title}</li>
-        });
         return (
             <React.Fragment>
                 {this.state.creating && <Backdrop />}
@@ -205,29 +203,7 @@ class EventsComponent extends Component {
                         <button onClick={this.startCreateEventHandler}>Add Booking</button>
                     </div>
                 )}
-                {/* 
-
-                Schema Reference:
-
-                type RootQuery {
-                events: [Event!]!
-                bookings: [Booking!]!
-                login(email: String!, password: String!): AuthData!
-                }
-
-                type Event {
-                _id: ID!
-                title: String!
-                description: String!
-                price: Float!
-                date: String!
-                creator: User!
-                }
-
-                */}
-                <ul className="events__list"> {/* render events */}
-                    {eventList}
-                </ul>
+                <EventList events={this.state.events} />
             </React.Fragment>
         );
     }

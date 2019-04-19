@@ -49,6 +49,7 @@ class App extends Component {
                   this.state.token &&
                   <Redirect from="/" to="/events" exact />
                 }
+        
                 {// this route will work if logged in
                   this.state.token &&
                   <Redirect from="/auth" to="/events" exact />

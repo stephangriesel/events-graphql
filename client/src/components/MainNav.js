@@ -9,7 +9,7 @@ const mainNav = props => (
             return (
                 <header>
                     <div className="mainnav__logo">
-                        <h1>TakeMeWith</h1>
+                        <h1><i className="fas fa-shipping-fast"></i></h1>
                     </div>
                     <nav className="mainnav__item">
                         <ul>

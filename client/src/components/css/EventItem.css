@@ -1,0 +1,6 @@
+.event__list-item {
+    display: flex;
+    justify-content: center;
+    padding:20px 0;
+    border-bottom: 0.2px solid #b6b6b6;
+}

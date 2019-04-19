@@ -3,7 +3,7 @@ import './css/Modal.css';
 
 const modal = props => (
     <div className="modal">
-        <header className="modal__header">{props.title}</header>
+        {/* <header className="modal__header">{props.title}</header> */}
         <section className="modal__content">
             {props.children} {/*  allow to pass from outside */}
         </section>
