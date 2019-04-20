@@ -8,7 +8,8 @@ import EventList from './EventList';
 class EventsComponent extends Component {
     state = {
         creating: false,
-        events: []
+        events: [],
+        isLoading: false
     };
 
     static contextType = AuthContext; // token,userid,login,logout
@@ -108,22 +109,22 @@ class EventsComponent extends Component {
             return res.json();
         })
 
-        // For reference, using createEvent mutation to push event:
-        // createEvent(eventInput: 
-        //     {
-        //         title:"${title}", 
-        //         description:"${description}",
-        //         price:${price},
-        //         date:"${date}",
-            
-        //     }) {
-        //         _id
-        //         title
-        //         description
-        //         date
-        //         price
-        //     }
-        
+            // For reference, using createEvent mutation to push event:
+            // createEvent(eventInput: 
+            //     {
+            //         title:"${title}", 
+            //         description:"${description}",
+            //         price:${price},
+            //         date:"${date}",
+
+            //     }) {
+            //         _id
+            //         title
+            //         description
+            //         date
+            //         price
+            //     }
+
             .then(resData => { // Token for logging in
                 this.setState(prevState => {
                     const updatedEvents = [...prevState.events];
@@ -137,21 +138,23 @@ class EventsComponent extends Component {
                             id: this.context.userId
                         }
                     });
-            });
-    })
+                    return { events: updatedEvents }; // Update state
+                });
+            })
             .catch(err => {
-        console.log(err); // show error messages, not status codes, more like network issues
+                console.log(err); // show error messages, not status codes, more like network issues
             });
         // Same logic as in Auth.js: END
 
     };
-modalCancelHandler = () => {
-    this.setState({ creating: false });
-};
+    modalCancelHandler = () => {
+        this.setState({ creating: false });
+    };
 
-fetchBookings() {
-    const requestBody = {
-        query: `
+    fetchBookings() {
+        this.setState({ isLoading: true });
+        const requestBody = {
+            query: `
                     query {
                         events {
                             _id
@@ -166,72 +169,84 @@ fetchBookings() {
                         }
                     }
                 `
-    };
+        };
 
-    // send request to backend
-    fetch('http://localhost:8000/graphql', { // not using axios. fetch built into modern browsers
-        method: 'POST',
-        body: JSON.stringify(requestBody), // sending body in json format
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-            throw new Error('Please login and try again. Failed!');
-        }
-        return res.json();
-    })
-        .then(resData => {
-            const events = resData.data.events;
-            this.setState({ events: events });
+        // send request to backend
+        fetch('http://localhost:8000/graphql', { // not using axios. fetch built into modern browsers
+            method: 'POST',
+            body: JSON.stringify(requestBody), // sending body in json format
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => {
+            if (res.status !== 200 && res.status !== 201) {
+                throw new Error('Please login and try again. Failed!');
+            }
+            return res.json();
         })
-        .catch(err => {
-            console.log(err);
-        });
-}
+            .then(resData => {
+                const events = resData.data.events;
+                this.setState({ events: events, isLoading: false });
+            })
+            .catch(err => {
+                console.log(err);
+                this.setState({ isLoading: false });
+            });
+    }
 
-render() {
+    render() {
 
-    return (
-        <React.Fragment>
-            {this.state.creating && <Backdrop />}
-            {this.state.creating && (
-                <Modal title="Add Booking"
-                    canCancel
-                    canConfirm
-                    onCancel={this.modalCancelHandler}
-                    onConfirm={this.modalConfirmHandler}
-                >
-                    <form> {/* compare to schema*/}
-                        <div className="form-wrapper__events">
-                            {/* <label htmlFor="title">What kind of booking ye majesty?</label> */}
-                            <input type="text" id="title" placeholder="Your booking title" ref={this.titleElementRef}></input>
-                        </div>
-                        <div className="form-wrapper__events">
-                            {/* <label htmlFor="price">Price</label> */}
-                            <input type="number" id="price" placeholder="Set your price" ref={this.priceElementRef}></input>
-                        </div>
-                        <div className="form-wrapper__events">
-                            {/* <label htmlFor="date">Date</label> */}
-                            <input type="datetime-local" id="date" placeholder="Choose your date" ref={this.dateElementRef}></input>
-                        </div>
-                        <div className="form-wrapper__events">
-                            {/* <label htmlFor="description">Description</label> */}
-                            <textarea id="description" rows="10" ref={this.descriptionElementRef} />
-                        </div>
-                    </form>
-                </Modal>
-            )} {/* canCancel & canConfirm will be set as true */}
-            {this.context.token && (
-                <div className="events-wrapper">
-                    <h1>Ready to book?</h1>
-                    <button onClick={this.startCreateEventHandler}>Add Booking</button>
-                </div>
-            )}
-            <EventList events={this.state.events} authUserId={this.context.userId} /> {/* pass props from component, events passed & userid passed */}
-        </React.Fragment>
-    );
-}
+        return (
+            <React.Fragment>
+                {this.state.creating && <Backdrop />}
+                {this.state.creating && (
+                    <Modal title="Add Booking"
+                        canCancel
+                        canConfirm
+                        onCancel={this.modalCancelHandler}
+                        onConfirm={this.modalConfirmHandler}
+                    >
+                        <form> {/* compare to schema*/}
+                            <div className="form-wrapper__events">
+                                {/* <label htmlFor="title">What kind of booking ye majesty?</label> */}
+                                <input type="text" id="title" placeholder="Your booking title" ref={this.titleElementRef}></input>
+                            </div>
+                            <div className="form-wrapper__events">
+                                {/* <label htmlFor="price">Price</label> */}
+                                <input type="number" id="price" placeholder="Set your price" ref={this.priceElementRef}></input>
+                            </div>
+                            <div className="form-wrapper__events">
+                                {/* <label htmlFor="date">Date</label> */}
+                                <input type="datetime-local" id="date" placeholder="Choose your date" ref={this.dateElementRef}></input>
+                            </div>
+                            <div className="form-wrapper__events">
+                                {/* <label htmlFor="description">Description</label> */}
+                                <textarea id="description" rows="10" ref={this.descriptionElementRef} />
+                            </div>
+                        </form>
+                    </Modal>
+                )} {/* canCancel & canConfirm will be set as true */}
+                {this.context.token && (
+                    <div className="events-wrapper">
+                        <h1>Ready to book?</h1>
+                        <button onClick={this.startCreateEventHandler}>Add Booking</button>
+                    </div>
+                )}
+                {this.state.isLoading ? (
+                    <div className="events__loading">
+                        <img src="https://media.giphy.com/media/l4FGIO2vCfJkakBtC/giphy.gif" />
+                    </div>
+                ) : (
+
+                        <EventList // pass props from component, events passed & userid passed 
+                            events={this.state.events}
+                            authUserId={this.context.userId}
+                        />
+                    )}
+
+            </React.Fragment>
+        );
+    }
 }
 
 export default EventsComponent;

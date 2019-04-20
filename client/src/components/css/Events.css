@@ -79,7 +79,10 @@ input#date {
     font-size:15px;
 }
 
-/* List of bookings */
+.events__loading {
+    display: flex;
+    justify-content: center;
+}
 
 
 
