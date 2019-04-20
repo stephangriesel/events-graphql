@@ -34,3 +34,9 @@
     text-transform: uppercase;
 
 }
+
+.event__date {
+    font-weight: 900;
+    text-transform: none !important; /* not best approach, review */
+    font-size:12px;
+}

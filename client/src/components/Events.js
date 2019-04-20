@@ -4,12 +4,15 @@ import Modal from './Modal';
 import Backdrop from './Backdrop';
 import AuthContext from '../context/auth-context';
 import EventList from './EventList';
+import Loading from './Loading';
+
 
 class EventsComponent extends Component {
     state = {
         creating: false,
         events: [],
-        isLoading: false
+        isLoading: false,
+        selectedEvent: null
     };
 
     static contextType = AuthContext; // token,userid,login,logout
@@ -148,7 +151,7 @@ class EventsComponent extends Component {
 
     };
     modalCancelHandler = () => {
-        this.setState({ creating: false });
+        this.setState({ creating: false, selectedEvent: null });
     };
 
     fetchBookings() {
@@ -194,17 +197,27 @@ class EventsComponent extends Component {
             });
     }
 
+    showDetailHandler = eventId => {
+        this.setState(prevState => {
+            const selectedEvent = prevState.events.find(e => e._id === eventId);
+            return { selectedEvent: selectedEvent };
+        })
+    }
+
+    bookEventHandler = () => { }
+
     render() {
 
         return (
             <React.Fragment>
-                {this.state.creating && <Backdrop />}
+                {(this.state.creating || this.state.selectedEvent) && <Backdrop />} {/* Display backdrop when event created or when details viewed*/ }
                 {this.state.creating && (
                     <Modal title="Add Booking"
                         canCancel
                         canConfirm
                         onCancel={this.modalCancelHandler}
                         onConfirm={this.modalConfirmHandler}
+                        confirmText="confirm"
                     >
                         <form> {/* compare to schema*/}
                             <div className="form-wrapper__events">
@@ -226,6 +239,19 @@ class EventsComponent extends Component {
                         </form>
                     </Modal>
                 )} {/* canCancel & canConfirm will be set as true */}
+                {this.state.selectedEvent && (
+                    <Modal title={this.state.selectedEvent.title}
+                        canCancel
+                        canConfirm
+                        onCancel={this.modalCancelHandler}
+                        onConfirm={this.bookEventHandler}
+                        confirmText="Book"
+                    >
+                        <h1>{this.state.selectedEvent.title}</h1>
+                        <h2>€{this.state.selectedEvent.price}</h2>
+                        <p className="event__date">Date Added: {new Date(this.state.selectedEvent.date).toLocaleDateString('gb-EN')}</p> {/* Review date format */}
+                        <p>{this.state.selectedEvent.description}</p>
+                    </Modal>)}
                 {this.context.token && (
                     <div className="events-wrapper">
                         <h1>Ready to book?</h1>
@@ -233,14 +259,13 @@ class EventsComponent extends Component {
                     </div>
                 )}
                 {this.state.isLoading ? (
-                    <div className="events__loading">
-                        <img src="https://media.giphy.com/media/l4FGIO2vCfJkakBtC/giphy.gif" />
-                    </div>
+                    <Loading />
                 ) : (
 
                         <EventList // pass props from component, events passed & userid passed 
                             events={this.state.events}
                             authUserId={this.context.userId}
+                            onViewDetail={this.showDetailHandler}
                         />
                     )}
 

@@ -15,7 +15,7 @@ const modal = props => (
             )}
             {props.canConfirm && (
                 <button className="btn" onClick={props.onConfirm}>
-                    Confirm
+                    {props.confirmText} {/* Pass confirm or book text property to state*/}
                 </button>
             )}
         </section>
