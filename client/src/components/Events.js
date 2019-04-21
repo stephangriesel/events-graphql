@@ -204,13 +204,67 @@ class EventsComponent extends Component {
         })
     }
 
-    bookEventHandler = () => { }
+    /* Schema Reference: 
+
+            type Booking {
+            _id: ID!
+            event: Event!
+            user: User!
+            createdAt: String!
+            updatedAt: String!
+        }
+            type RootMutation {
+            bookEvent(eventId: ID!): Booking
+            cancelBooking(bookingId: ID!): Event!
+    */
+
+    bookEventHandler = () => {
+        const requestBody = {
+            query: `
+                    mutation {
+                        bookEvent(eventId: "${this.state.selectedEvent._id}") {
+                            _id
+                            title
+                            description
+                            date
+                            price
+                            creator {
+                                _id
+                                createdAt
+                                updatedAt
+                            }
+                        }
+                    }
+                `
+            };
+
+        // send request to backend
+        fetch('http://localhost:8000/graphql', { // not using axios. fetch built into modern browsers
+            method: 'POST',
+            body: JSON.stringify(requestBody), // sending body in json format
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.context.token
+            }
+        }).then(res => {
+            if (res.status !== 200 && res.status !== 201) {
+                throw new Error('Please login and try again. Failed!');
+            }
+            return res.json();
+        })
+            .then(resData => {
+                console.log(resData);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
 
     render() {
 
         return (
             <React.Fragment>
-                {(this.state.creating || this.state.selectedEvent) && <Backdrop />} {/* Display backdrop when event created or when details viewed*/ }
+                {(this.state.creating || this.state.selectedEvent) && <Backdrop />} {/* Display backdrop when event created or when details viewed*/}
                 {this.state.creating && (
                     <Modal title="Add Booking"
                         canCancel
