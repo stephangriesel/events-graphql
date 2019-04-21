@@ -219,24 +219,22 @@ class EventsComponent extends Component {
     */
 
     bookEventHandler = () => {
+        if(!this.context.token) {
+            this.setState({selectedEvent: null});
+            return;
+        }
         const requestBody = {
             query: `
-                    mutation {
-                        bookEvent(eventId: "${this.state.selectedEvent._id}") {
-                            _id
-                            title
-                            description
-                            date
-                            price
-                            creator {
-                                _id
-                                createdAt
-                                updatedAt
-                            }
-                        }
-                    }
-                `
-            };
+                mutation {
+                  bookEvent(eventId: "${this.state.selectedEvent._id}") {
+                    _id
+                   createdAt
+                   updatedAt
+                  }
+                }
+              `
+          };
+      
 
         // send request to backend
         fetch('http://localhost:8000/graphql', { // not using axios. fetch built into modern browsers
@@ -254,6 +252,7 @@ class EventsComponent extends Component {
         })
             .then(resData => {
                 console.log(resData);
+                this.setState({selectedEvent: null});
             })
             .catch(err => {
                 console.log(err);
@@ -299,7 +298,7 @@ class EventsComponent extends Component {
                         canConfirm
                         onCancel={this.modalCancelHandler}
                         onConfirm={this.bookEventHandler}
-                        confirmText="Book"
+                        confirmText={this.context.token ? 'Book' : 'Confirm'}
                     >
                         <h1>{this.state.selectedEvent.title}</h1>
                         <h2>€{this.state.selectedEvent.price}</h2>
