@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AuthContext from '../context/auth-context';
+import AuthContext from '../context/auth-context'
 
 
 class BookingsComponent extends Component {
@@ -32,21 +32,23 @@ class BookingsComponent extends Component {
 
     fetchBookings = () => {
         this.setState({ isLoading: true });
+        // debugger
         const requestBody = {
-            query: `
-                    query {
-                        bookings {
-                            _id
-                            createdAt
-                            event {
-                                _id
-                                title
-                                date
-                            }
-                        }
-                    }
-                `
+          query: `
+              query {
+                bookings {
+                  _id
+                 createdAt
+                 event {
+                   _id
+                   title
+                   date
+                 }
+                }
+              }
+            `
         };
+        // debugger
 
         // send request to backend
         fetch('http://localhost:8000/graphql', { // not using axios. fetch built into modern browsers
@@ -54,7 +56,7 @@ class BookingsComponent extends Component {
             body: JSON.stringify(requestBody), // sending body in json format
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + this.context.token
+                Authorization: 'Bearer ' + this.context.token
             }
         }).then(res => {
             if (res.status !== 200 && res.status !== 201) {
@@ -76,13 +78,13 @@ class BookingsComponent extends Component {
         return (
             // review and change to section
             <ul>
-                {this.state.bookings.map(booking =>
-                    <li>
-                        {booking.event.title}: {' '}
-                        {new Date(booking.createdAt).toLocaleDateString()}
-                    </li>
-                )}
-            </ul>
+            {this.state.bookings.map(booking => (
+              <li key={booking._id}>
+                {booking.event.title}: {' '}
+                {new Date(booking.createdAt).toLocaleDateString()}
+              </li>
+            ))}
+          </ul>
         );
     }
 }
