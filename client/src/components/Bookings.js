@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import AuthContext from '../context/auth-context';
+
 
 class BookingsComponent extends Component {
     state = {
         isLoading: false,
         bookings: []
     };
+
+    static contextType = AuthContext; // token,userid,login,logout
 
     componentDidMount() {
         this.fetchBookings();
