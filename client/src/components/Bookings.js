@@ -7,7 +7,7 @@ class BookingsComponent extends Component {
     };
 
     componentDidMount() {
-
+        this.fetchBookings();
     }
 
     // Schema reference
@@ -49,7 +49,8 @@ class BookingsComponent extends Component {
             method: 'POST',
             body: JSON.stringify(requestBody), // sending body in json format
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.context.token
             }
         }).then(res => {
             if (res.status !== 200 && res.status !== 201) {
