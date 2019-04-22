@@ -27,7 +27,7 @@ class EventsComponent extends Component {
 
     // Lifecycle hook
     componentDidMount() {
-        this.fetchBookings();
+        this.fetchEntries();
     }
 
     startCreateEventHandler = () => {
@@ -154,7 +154,7 @@ class EventsComponent extends Component {
         this.setState({ creating: false, selectedEvent: null });
     };
 
-    fetchBookings() {
+    fetchEntries() {
         this.setState({ isLoading: true });
         const requestBody = {
             query: `
@@ -219,7 +219,7 @@ class EventsComponent extends Component {
     */
 
     bookEventHandler = () => {
-        if(!this.context.token) {
+        if(!this.context.token) { // if not logged in
             this.setState({selectedEvent: null});
             return;
         }
