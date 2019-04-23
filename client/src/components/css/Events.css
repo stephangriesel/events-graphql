@@ -46,6 +46,8 @@
     width:100%;
 }
 
+
+
 /* Removes the clear button from date inputs */
 input[type="datetime-local"]::-webkit-clear-button {
     display: none;

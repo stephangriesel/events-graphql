@@ -88,9 +88,21 @@ class BookingsComponent extends Component {
           <div className="booking-details">
             {this.state.bookings.map(booking => (
               <div key={booking._id} className="booked-item">
-                <div>Booking Title: {booking.event.title}</div>
-                <div>Booking Date: {new Date(booking.createdAt).toLocaleDateString()}</div>
-                <div>User: {booking.user.email}</div>
+
+                <div className="bookingdetails__title">
+                  <h3>Booking Title:</h3>
+                  <p>{booking.event.title}</p>
+                </div>
+
+                <div className="bookingdetails__date">
+                  <h3>Booking Date:</h3>
+                  <p>{new Date(booking.createdAt).toLocaleDateString()}</p>
+                </div>
+
+                <div className="bookingdetails__user">
+                  <h3>User:</h3>
+                  <p>{booking.user.email}</p>
+                </div>
               </div>
             ))}
           </div>
