@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AuthContext from '../context/auth-context'
 import Loading from './Loading';
+import './css/Bookings.css';
 
 
 class BookingsComponent extends Component {
@@ -80,19 +81,21 @@ class BookingsComponent extends Component {
 
   render() {
     return (
-      // review and change to section
+
       <React.Fragment>
         {this.state.isLoading ? <Loading /> : (
-          <ul>
+          // Bookings return: start
+          <div className="booking-details">
             {this.state.bookings.map(booking => (
-              <li key={booking._id}>
-                {booking.event.title}: {' '}
-                {new Date(booking.createdAt).toLocaleDateString()} by {booking.user.email}
-              </li>
+              <div key={booking._id} className="booked-item">
+                <div>Booking Title: {booking.event.title}</div>
+                <div>Booking Date: {new Date(booking.createdAt).toLocaleDateString()}</div>
+                <div>User: {booking.user.email}</div>
+              </div>
             ))}
-          </ul>
+          </div>
+          // Bookings return end
         )}
-
       </React.Fragment>
     );
   }
