@@ -14,6 +14,7 @@ class EventsComponent extends Component {
         isLoading: false,
         selectedEvent: null
     };
+    isActive = true;
 
     static contextType = AuthContext; // token,userid,login,logout
 
@@ -189,11 +190,15 @@ class EventsComponent extends Component {
         })
             .then(resData => {
                 const events = resData.data.events;
-                this.setState({ events: events, isLoading: false });
+                if(this.isActive) { // don't call state if it is not active anymore
+                    this.setState({ events: events, isLoading: false });
+                }
             })
             .catch(err => {
                 console.log(err);
-                this.setState({ isLoading: false });
+                if(this.isActive){
+                    this.setState({ isLoading: false });
+                }
             });
     }
 
@@ -257,6 +262,10 @@ class EventsComponent extends Component {
             .catch(err => {
                 console.log(err);
             });
+    }
+
+    componentWillUnmount(){
+        this.isActive = false;
     }
 
     render() {
