@@ -1,0 +1,53 @@
+ul,li {
+    list-style: none;
+    margin:0;
+    padding: 0;
+}
+
+.booking-details {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.booked-item p, h3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin:10px 0;
+}
+
+.booked-item {
+    box-shadow: 5px 5px 5px 2px rgba(0,0,0,0.29);
+    padding:20px;
+    margin:20px 0;
+}
+
+.bookingdetails__title h3, p {
+    padding:0;
+    margin:5px 0;
+}
+
+.bookingdetails__date h3, p {
+    margin:5px 0;
+    padding:0;
+}
+
+.bookingdetails__user h3, p {
+    margin:5px 0;
+    padding:0;
+}
+
+.cancel-btn {
+    text-align: center;
+    margin:20px 0 0;
+}
+
+.btn-warning {
+    background:rgb(0, 0, 0);
+}
+.btn-warning:hover {
+    color:#FFFFFF;
+    background:rgb(197, 0, 0);
+}
