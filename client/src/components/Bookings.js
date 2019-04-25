@@ -80,6 +80,59 @@ class BookingsComponent extends Component {
       });
   };
 
+  // Schema reference:
+
+//   type RootMutation {
+//     createEvent(eventInput: EventInput): Event
+//     createUser(userInput: UserInput): User
+//     bookEvent(eventId: ID!): Booking!
+//     cancelBooking(bookingId: ID!): Event! << endpoint
+// }
+
+  deleteBookingHandler = bookingId => { // props.onDelete.bind refers to this
+    this.setState({ isLoading: true });
+    // debugger
+    const requestBody = {
+      query: `
+              mutation {
+                cancelBooking(bookingId: "${bookingId}"){ 
+                  _id
+                 title
+                }
+              }
+            `
+    };
+    // debugger
+
+    // send request to backend
+    fetch('http://localhost:8000/graphql', { // not using axios. fetch built into modern browsers
+      method: 'POST',
+      body: JSON.stringify(requestBody), // sending body in json format
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + this.context.token
+      }
+    }).then(res => {
+      if (res.status !== 200 && res.status !== 201) {
+        throw new Error('Please login and try again. Failed!');
+      }
+      return res.json();
+    })
+      .then(resData => {
+        const bookings = 
+        this.setState(prevState => {
+          const updatedBookings = prevState.bookings.filter(booking => {
+            return booking._id !== bookingId;
+          });
+          return { bookings: updatedBookings, isLoading: false };
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ isLoading: false });
+      });
+  }
+
   render() {
     return (
 
@@ -88,6 +141,7 @@ class BookingsComponent extends Component {
           // Bookings return: start
           <BookingList
             bookings={this.state.bookings}
+            onDelete={this.deleteBookingHandler} // props.onDelete.bind refers to this
           />
           // Bookings return end
         )}
