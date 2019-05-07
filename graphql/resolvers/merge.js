@@ -8,6 +8,12 @@ const eventLoader = new DataLoader((eventIds) => {
   return events(eventIds);
 });
 
+const userLoader = new DataLoader(userIds => {
+  console.log(userIds);
+
+  return User.find({_id: {$in: userIds}});
+});
+
 const events = async eventIds => { // change to async: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
     try {
       const events = await Event.find({ _id: { $in: eventIds } })
@@ -21,7 +27,7 @@ const events = async eventIds => { // change to async: https://developer.mozilla
 
   const singleEvent = async eventId => {
     try {
-      const event = await eventLoader.load(eventId);
+      const event = await eventLoader.load(eventId.toString());
       return event;
     } catch (err) {
       throw err;
@@ -30,7 +36,7 @@ const events = async eventIds => { // change to async: https://developer.mozilla
 
   const user = async userId => { // Manual population
     try {
-      const user = await User.findById(userId)
+      const user = await userLoader.load(userId.toString());
       return {
         ...user._doc,
         _id: user.id,
