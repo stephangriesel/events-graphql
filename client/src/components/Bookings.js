@@ -94,13 +94,16 @@ class BookingsComponent extends Component {
     // debugger
     const requestBody = {
       query: `
-              mutation {
-                cancelBooking(bookingId: "${bookingId}"){ 
+              mutation CancelBooking($id: ID!) {
+                cancelBooking(bookingId: $id){
                   _id
                  title
                 }
               }
-            `
+            `,
+            variables: {
+              id: bookingId
+            }
     };
     // debugger
 
@@ -119,7 +122,7 @@ class BookingsComponent extends Component {
       return res.json();
     })
       .then(resData => {
-        const bookings = 
+        const bookings =
         this.setState(prevState => {
           const updatedBookings = prevState.bookings.filter(booking => {
             return booking._id !== bookingId;

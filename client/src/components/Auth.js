@@ -11,7 +11,7 @@ class AuthComponent extends Component {
 
     constructor(props) {
         super(props);
-        this.emailElement = React.createRef(); // 1. can also use bindings, this method is for ref's. connect ref's to dom elements in return. 
+        this.emailElement = React.createRef(); // 1. can also use bindings, this method is for ref's. connect ref's to dom elements in return.
         this.passwordElement = React.createRef();
     }
 
@@ -32,26 +32,34 @@ class AuthComponent extends Component {
 
         let requestBody = {
             query: `
-            query {
-                login(email: "${email}", password:"${password}") {
+            query Login ($email: String!, $password: String!) {
+                login(email:$email, password:$password) {
                     userId
                     token
                     tokenExpiration
                 }
             }
-            `
+            `,
+            variables: {
+                email: email,
+                password: password
+            }
         };
 
         if (!this.state.isLoggedIn) {
             requestBody = {
                 query: `
-                    mutation {
-                        createUser(userInput: {email:"${email}", password:"${password}"}) {
+                    mutation CreateUser($email: String!, $password: String!){
+                        createUser(userInput: {email:$email, password:$password}) {
                             _id
                             email
                         }
                     }
-                `
+                `,
+                variables: {
+                    email: email, // email before colon needs to match mutation naming '$email', email after colon refers to value which refers to the constant 'const email'
+                    password: password
+                }
             };
         }
 
@@ -94,9 +102,9 @@ class AuthComponent extends Component {
                     <input type="password" id="submit" placeholder="***************" ref={this.passwordElement} />{/* connect ref's as explained above*/}
                 </div>
                 <div className="form-actions">
-                    <button type="submit">Submit</button>
+                    <button type="submit"><i className="fas fa-sign-in-alt"></i> Submit</button>
                     <button type="button" onClick={this.switchModeHandler}>
-                        {this.state.isLoggedIn ? 'Signup' : 'Your Leader'} <i className="far fa-hand-spock"></i>
+                        {this.state.isLoggedIn ? 'Signup' : 'SignIn'} <i className="far fa-hand-spock"></i>
                     </button>
                 </div>
             </form>
