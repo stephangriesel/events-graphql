@@ -75,16 +75,22 @@ class EventsComponent extends Component {
         //     creator: User!
         // }
 
-        const requestBody = {
+        const requestBody = { // refer to schema to confirm type used in query, for example for the price and date
             query: `
-                    mutation {
-                        createEvent(eventInput: 
+                    mutation
+                        createEvent(
+                            $title: String!,
+                            $desc: String!,
+                            $price: Float!,
+                            $date: String!
+                        ){
+                        createEvent(eventInput:
                         {
-                            title:"${title}", 
-                            description:"${description}",
-                            price:${price},
-                            date:"${date}",
-                        
+                            title:$title,
+                            description:$desc,
+                            price:$price,
+                            date:$date,
+
                         }) {
                             _id
                             title
@@ -93,7 +99,13 @@ class EventsComponent extends Component {
                             price
                         }
                     }
-                `
+                `,
+                variables: {
+                    title: title, // title to the right refers to const defined above
+                    desc: description,
+                    price: price,
+                    date: date
+                }
         };
 
         const token = this.context.token;
@@ -114,9 +126,9 @@ class EventsComponent extends Component {
         })
 
             // For reference, using createEvent mutation to push event:
-            // createEvent(eventInput: 
+            // createEvent(eventInput:
             //     {
-            //         title:"${title}", 
+            //         title:"${title}",
             //         description:"${description}",
             //         price:${price},
             //         date:"${date}",
@@ -209,7 +221,7 @@ class EventsComponent extends Component {
         })
     }
 
-    /* Schema Reference: 
+    /* Schema Reference:
 
             type Booking {
             _id: ID!
@@ -230,16 +242,20 @@ class EventsComponent extends Component {
         }
         const requestBody = {
             query: `
-                mutation {
-                  bookEvent(eventId: "${this.state.selectedEvent._id}") {
+                mutation BookEvent($id: ID!) {
+                  bookEvent(eventId: $id) {
                     _id
                    createdAt
                    updatedAt
                   }
                 }
-              `
+              `,
+              variables: {
+                  id: this.state.selectedEvent._id
+              }
+
           };
-      
+
 
         // send request to backend
         fetch('http://localhost:8000/graphql', { // not using axios. fetch built into modern browsers
@@ -324,7 +340,7 @@ class EventsComponent extends Component {
                     <Loading />
                 ) : (
 
-                        <EventList // pass props from component, events passed & userid passed 
+                        <EventList // pass props from component, events passed & userid passed
                             events={this.state.events}
                             authUserId={this.context.userId}
                             onViewDetail={this.showDetailHandler}
