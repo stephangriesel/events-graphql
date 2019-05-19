@@ -3,12 +3,14 @@ import AuthContext from '../context/auth-context'
 import Loading from './Loading';
 import './css/Bookings.css';
 import BookingList from '../components/BookingList';
+import BookingStats from './BookingStats';
 
 
 class BookingsComponent extends Component {
   state = {
     isLoading: false,
-    bookings: []
+    bookings: [],
+    outputType: 'list'
   };
 
   static contextType = AuthContext; // token,userid,login,logout
@@ -136,18 +138,40 @@ class BookingsComponent extends Component {
       });
   }
 
+  outputTypeProcess = outputType => {
+    if (outputType === 'list'){
+      this.setState({outputType: 'list'});
+    } else {
+      this.setState({outputType: 'stats'});
+    }
+  }
+
   render() {
+    let content = <Loading />
+    if (!this.state.isLoading) {
+      content = (
+        <React.Fragment>
+          <div>
+            <button onClick={this.outputTypeProcess.bind(this, 'list')}>List</button>
+            <button onClick={this.outputTypeProcess.bind(this, 'stats')}>Stats</button>
+          </div>
+          <div>
+            {this.state.outputType === 'list' ?
+            <BookingList
+            bookings={this.state.bookings}
+            onDelete={this.deleteBookingHandler}
+            /> :
+            <BookingStats
+            bookings={this.state.bookings}
+            />}
+          </div>
+        </React.Fragment>
+      )
+    }
     return (
 
       <React.Fragment>
-        {this.state.isLoading ? <Loading /> : (
-          // Bookings return: start
-          <BookingList
-            bookings={this.state.bookings}
-            onDelete={this.deleteBookingHandler} // props.onDelete.bind refers to this
-          />
-          // Bookings return end
-        )}
+        {content}
       </React.Fragment>
     );
   }
