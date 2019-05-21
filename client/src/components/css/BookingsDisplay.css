@@ -1,0 +1,17 @@
+.booking-display {
+  display:flex;
+  justify-content: center;
+}
+
+.bookings-display button {
+  border-bottom:2px solid rgb(255, 251, 0);
+}
+
+.booking-display button.active {
+  border-bottom:5px solid #fff133;
+  border-top: 5px solid #fff133;
+}
+
+.booking-display button:focus {
+  outline:none;
+}

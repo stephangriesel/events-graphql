@@ -3,8 +3,8 @@ import AuthContext from '../context/auth-context'
 import Loading from './Loading';
 import './css/Bookings.css';
 import BookingList from '../components/BookingList';
-import BookingStats from './BookingStats';
-
+import BookingStats from '../components/BookingStats';
+import BookingDisplay from '../components/BookingDisplay';
 
 class BookingsComponent extends Component {
   state = {
@@ -84,12 +84,12 @@ class BookingsComponent extends Component {
 
   // Schema reference:
 
-//   type RootMutation {
-//     createEvent(eventInput: EventInput): Event
-//     createUser(userInput: UserInput): User
-//     bookEvent(eventId: ID!): Booking!
-//     cancelBooking(bookingId: ID!): Event! << endpoint
-// }
+  //   type RootMutation {
+  //     createEvent(eventInput: EventInput): Event
+  //     createUser(userInput: UserInput): User
+  //     bookEvent(eventId: ID!): Booking!
+  //     cancelBooking(bookingId: ID!): Event! << endpoint
+  // }
 
   deleteBookingHandler = bookingId => { // props.onDelete.bind refers to this
     this.setState({ isLoading: true });
@@ -103,9 +103,9 @@ class BookingsComponent extends Component {
                 }
               }
             `,
-            variables: {
-              id: bookingId
-            }
+      variables: {
+        id: bookingId
+      }
     };
     // debugger
 
@@ -125,12 +125,12 @@ class BookingsComponent extends Component {
     })
       .then(resData => {
         const bookings =
-        this.setState(prevState => {
-          const updatedBookings = prevState.bookings.filter(booking => {
-            return booking._id !== bookingId;
+          this.setState(prevState => {
+            const updatedBookings = prevState.bookings.filter(booking => {
+              return booking._id !== bookingId;
+            });
+            return { bookings: updatedBookings, isLoading: false };
           });
-          return { bookings: updatedBookings, isLoading: false };
-        });
       })
       .catch(err => {
         console.log(err);
@@ -139,10 +139,10 @@ class BookingsComponent extends Component {
   }
 
   outputTypeProcess = outputType => {
-    if (outputType === 'list'){
-      this.setState({outputType: 'list'});
+    if (outputType === 'list') {
+      this.setState({ outputType: 'list' });
     } else {
-      this.setState({outputType: 'stats'});
+      this.setState({ outputType: 'stats' });
     }
   }
 
@@ -151,19 +151,19 @@ class BookingsComponent extends Component {
     if (!this.state.isLoading) {
       content = (
         <React.Fragment>
-          <div>
-            <button onClick={this.outputTypeProcess.bind(this, 'list')}>List</button>
-            <button onClick={this.outputTypeProcess.bind(this, 'stats')}>Stats</button>
-          </div>
+          <BookingDisplay
+            activeOutputType={this.state.outputType}
+            onChange={this.outputTypeProcess}
+          />
           <div>
             {this.state.outputType === 'list' ?
-            <BookingList
-            bookings={this.state.bookings}
-            onDelete={this.deleteBookingHandler}
-            /> :
-            <BookingStats
-            bookings={this.state.bookings}
-            />}
+              <BookingList
+                bookings={this.state.bookings}
+                onDelete={this.deleteBookingHandler}
+              /> :
+              <BookingStats
+                bookings={this.state.bookings}
+              />}
           </div>
         </React.Fragment>
       )
