@@ -1,9 +1,18 @@
 import React from 'react'
 
 const BOOKINGS_BUCKETS = {
-  'Low': 100,
-  'Medium': 250,
-  'High': 500
+  'Low': {
+    min:0,
+    max:100
+  },
+  'Medium': {
+    min:250,
+    max:499
+  },
+  'High': {
+    min:500,
+    max:1000
+  }
 }
 
 const BookingStats = props => {
@@ -12,7 +21,7 @@ const BookingStats = props => {
     const filteredBookingsCount = props.bookings.reduce((
       prev, current
     ) => {
-      if (current.price < BOOKINGS_BUCKETS[bucket]) {
+      if (current.event.price > BOOKINGS_BUCKETS[bucket].min && current.event.price < BOOKINGS_BUCKETS[bucket].max) {
         return prev + 1
       } else {
         return prev;

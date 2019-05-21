@@ -51,6 +51,7 @@ class BookingsComponent extends Component {
                    _id
                    title
                    date
+                   price
                  }
                 }
               }
