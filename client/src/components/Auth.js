@@ -99,7 +99,7 @@ class AuthComponent extends Component {
                     <input type="email" id="email" placeholder="please enter your email" ref={this.emailElement} /> {/* 2. connect ref's as explained above*/}
                 </div>
                 <div className="form-control">
-                    <input type="password" id="submit" placeholder="***************" ref={this.passwordElement} />{/* connect ref's as explained above*/}
+                    <input type="password" id="password" placeholder="***************" ref={this.passwordElement} />{/* connect ref's as explained above*/}
                 </div>
                 <div className="form-actions">
                     <button type="submit"><i className="fas fa-sign-in-alt"></i> Submit</button>

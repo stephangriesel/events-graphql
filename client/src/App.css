@@ -4,6 +4,10 @@ body {
     width:100%;
 }
 
+input {
+    outline: none;
+}
+
 a {
     background:#FFFFFF;
     color:#000000;
