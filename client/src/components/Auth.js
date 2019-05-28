@@ -4,7 +4,9 @@ import AuthContext from '../context/auth-context'
 
 class AuthComponent extends Component {
     state = {
-        isLoggedIn: true
+        isLoggedIn: true,
+        emailError: "",
+        passwordError: ""
     };
 
     static contextType = AuthContext;
@@ -22,8 +24,29 @@ class AuthComponent extends Component {
 
     }
 
+    // validate = () => {
+    //     let emailError="";
+    //     // let passwordError= "";
+    //     if(!this.state.email.includes('@')) {
+    //         emailError = "invalid email";
+    //     }
+
+    //     if (emailError) {
+    //         this.setState({emailError});
+    //         return false;
+    //     }
+
+    //     return true;
+    // };
+
+
+
     submitHandler = (event) => { // method to send values to backend
         event.preventDefault(); // default behaviour to send request to same address this is running, which is not correct, preventDefault prevents this
+        // const isValid = this.validate();
+        // if (isValid) {
+        //     console.log(this.state);
+        // }
         const email = this.emailElement.current.value; // 3. get values from what is defined in render (the form)
         const password = this.passwordElement.current.value;
         if (email.trim().length === 0 || password.trim().length === 0) { // validation, trim whitespace
@@ -92,15 +115,20 @@ class AuthComponent extends Component {
                 console.log(err); // show error messages, not status codes, more like network issues
             });
     };
+
+
+
     render() {
         return (
             <form className="form-wrapper" onSubmit={this.submitHandler}> {/* listen to form submit, this will always refer to class because arrow function used above */}
                 <div className="form-control">
                     <input type="email" id="email" placeholder="please enter your email" ref={this.emailElement} /> {/* 2. connect ref's as explained above*/}
                 </div>
+                <div className="error-msg">{this.state.emailError}</div>
                 <div className="form-control">
                     <input type="password" id="password" placeholder="***************" ref={this.passwordElement} />{/* connect ref's as explained above*/}
                 </div>
+                <div className="error-msg">{this.state.passwordError}</div>
                 <div className="form-actions">
                     <button type="submit"><i className="fas fa-sign-in-alt"></i> Submit</button>
                     <button type="button" onClick={this.switchModeHandler}>

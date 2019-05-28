@@ -6,7 +6,7 @@
 }
 
 .form-wrapper input {
-    background-color:#cacaca; 
+    background-color:#cacaca;
     margin:10px;
     padding:10px;
     font-size:20px;
@@ -34,4 +34,10 @@
     color:#fff133;
     box-shadow: 8px 5px 8px rgba(0,0,0,0.29);
     cursor: pointer;
+}
+
+.error-msg {
+    color:#ff0000;
+    font-weight:900;
+
 }
